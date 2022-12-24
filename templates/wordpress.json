@@ -1,0 +1,36 @@
+${jsonencode([
+  {
+    name: docker_name,
+    image: docker_image,
+    dnsSearchDomains: null,
+    networkMode: "awsvpc",
+    cpu: docker_cpu,
+    memory: docker_memory,
+    environment: environment,
+    entryPoint: [],
+    command: null,
+    portMappings: [
+      {
+        hostPort: 80,
+        protocol: "tcp",
+        containerPort: 80,
+      },
+    ],
+    essential: true,
+    mountPoints: [
+      {
+          containerPath: "/var/www/html/wp-content/uploads/",
+          sourceVolume: "service-storage"
+          readOnly: false
+      }
+  ],
+    logConfiguration: {
+      logDriver: "awslogs",
+      options: {
+        awslogs-group: docker_logs_group,
+        awslogs-region: "us-east-1",
+        awslogs-stream-prefix: "ecs"
+      }
+    },
+  }
+])}
